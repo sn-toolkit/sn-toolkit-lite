@@ -233,8 +233,8 @@
                         <li id="servicenow_search_engine" style="padding: 5px 10px; cursor: pointer;" title="Search the official ServiceNow documentation and community forums">Search ServiceNow Documentation</li>
                         ${extendedSearchOptions.map(item => `
                             <li style="padding: 5px 10px;">
-                                <span id="search_${item.name}" title="Search by ${item.search_by.join(', ')}&#10;Opens the record directly" style="margin-right: 15px; cursor: pointer;">${item.title + ' ➚'}</span>
-                                <span id="search_${item.name}_list" title="Search by ${item.search_by.join(', ')}&#10;Opens a filtered list" style="cursor: pointer;">Run filter ➚</span>
+                                <span id="search_${item.name}" title="Search ${item.name} by ${item.search_by.join(', ')}&#10;Opens the record directly" style="margin-right: 15px; cursor: pointer;">${item.title + ' ➚'}</span>
+                                <span id="search_${item.name}_list" title="Search ${item.name} by ${item.search_by.join(', ')}&#10;Opens a filtered list" style="cursor: pointer;">Run filter ➚</span>
                             </li>
                         `).join('')}
                     </ul>
