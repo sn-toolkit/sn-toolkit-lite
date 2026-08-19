@@ -1,6 +1,6 @@
 (function () {
     const subdomain = window.location.hostname.replace('.service-now.com', '');
-    const excludedURLs = ['www', 'signon', 'sso', 'auth', 'angel', 'angeldemo', 'gld', 'clabs', 'developer', 'support'];
+    const excludedURLs = ['www', 'signon', 'sso', 'auth', 'angel', 'angeldemo', 'applibrary', 'partnerportal', 'partnermarketing', 'gld', 'clabs', 'developer', 'support', 'training', 'healthscan'];
     if (window.location.hostname.endsWith('service-now.com') && !excludedURLs.includes(subdomain)) {
         const currentOverlay = document.getElementById('sntk-modal-overlay');
         if (currentOverlay) {
@@ -11,58 +11,200 @@
         const modal = document.createElement('div');
         overlay.id = 'sntk-modal-overlay';
 
-        const globalSearchOptions = [
-            { id: 'sys_properties', label: 'System Properties ➚', title: 'Search sys_properties by name' },
-            { id: 'sys_update_set', label: 'Local Update Sets ➚', title: 'Search sys_update_set by name' },
-            { id: 'sys_remote_update_set', label: 'Retrieved Update Sets ➚', title: 'Search sys_remote_update_set by name' },
-            { id: 'sys_db_object', label: 'Tables ➚', title: 'Search sys_db_object by name or label' },
-            { id: 'sys_script', label: 'Business Rules ➚', title: 'Search sys_script by name' },
-            { id: 'sysauto', label: 'Scheduled Jobs ➚', title: 'Search sysauto by name' },
-            { id: 'sys_script_include', label: 'Script Includes ➚', title: 'Search sys_script_include by name' },
-            { id: 'sysrule_assignment', label: 'Assignment Rules ➚', title: 'Search sysrule_assignment by name' },
-            { id: 'sys_script_client', label: 'Client Scripts ➚', title: 'Search sys_script_client by name' },
-            { id: 'sys_ui_action', label: 'UI Actions ➚', title: 'Search sys_ui_action by name or action_name' },
-            { id: 'cmdb_ci_service_business', label: 'Business Services ➚', title: 'Search cmdb_ci_service_business by name' },
-            { id: 'service_offering', label: 'Service Offerings ➚', title: 'Search service_offering by name' },
-            { id: 'sc_cat_item_producer', label: 'Record Producers ➚', title: 'Search sc_cat_item_producer by name' },
-            { id: 'sc_cat_item', label: 'Catalog Items ➚', title: 'Search sc_cat_item by name' },
-            { id: 'sys_user_group', label: 'Groups ➚', title: 'Search sys_user_group by name' },
-            { id: 'sys_user', label: 'Users ➚', title: 'Search sys_user by name, user_name, or email' }
+        const extendedSearchOptions = [
+            {
+                "title": "System Properties",
+                "name": "sys_properties",
+                "search_by": ["name"]
+            },
+            {
+                "title": "Local Update Sets",
+                "name": "sys_update_set",
+                "search_by": ["name"]
+            },
+            {
+                "title": "Retrieved Update Sets",
+                "name": "sys_remote_update_set",
+                "search_by": ["name"]
+            },
+            {
+                "title": "Tables",
+                "name": "sys_db_object",
+                "search_by": ["name", "label"]
+            },
+            {
+                "title": "Business Rules",
+                "name": "sys_script",
+                "search_by": ["name"],
+                "order_by": "^ORDERBYDESCactive"
+            },
+            {
+                "title": "Scheduled Jobs",
+                "name": "sysauto",
+                "search_by": ["name"],
+                "order_by": "^ORDERBYDESCactive"
+            },
+            {
+                "title": "Script Includes",
+                "name": "sys_script_include",
+                "search_by": ["name"],
+                "order_by": "^ORDERBYDESCactive"
+            },
+            {
+                "title": "Assignment Rules",
+                "name": "sysrule_assignment",
+                "search_by": ["name"],
+                "order_by": "^ORDERBYDESCactive"
+            },
+            {
+                "title": "Fix Scripts",
+                "name": "sys_script_fix",
+                "search_by": ["name"]
+            },
+            {
+                "title": "Client Scripts",
+                "name": "sys_script_client",
+                "search_by": ["name"],
+                "order_by": "^ORDERBYDESCactive"
+            },
+            {
+                "title": "Catalog Client Scripts",
+                "name": "catalog_script_client",
+                "search_by": ["name"],
+                "order_by": "^ORDERBYDESCactive"
+            },
+            {
+                "title": "UI Policies",
+                "name": "sys_ui_policy",
+                "search_by": ["short_description"],
+                "order_by": "^ORDERBYDESCactive"
+            },
+            {
+                "title": "Catalog UI Policies",
+                "name": "catalog_ui_policy",
+                "search_by": ["short_description"],
+                "order_by": "^ORDERBYDESCactive"
+            },
+            {
+                "title": "UI Actions",
+                "name": "sys_ui_action",
+                "search_by": ["name", "action_name"],
+                "order_by": "^ORDERBYDESCactive"
+            },
+            {
+                "title": "UI Pages",
+                "name": "sys_ui_page",
+                "search_by": ["name"]
+            },
+            {
+                "title": "Business Services",
+                "name": "cmdb_ci_service_business",
+                "search_by": ["name"]
+            },
+            {
+                "title": "Service Offerings",
+                "name": "service_offering",
+                "search_by": ["name"]
+            },
+            {
+                "title": "Catalog Items",
+                "name": "sc_cat_item",
+                "search_by": ["name"],
+                "order_by": "^ORDERBYDESCactive"
+            },
+            {
+                "title": "Record Producers",
+                "name": "sc_cat_item_producer",
+                "search_by": ["name"],
+                "order_by": "^ORDERBYDESCactive"
+            },
+            {
+                "title": "Order Guides",
+                "name": "sc_cat_item_guide",
+                "search_by": ["name"],
+                "order_by": "^ORDERBYDESCactive"
+            },
+            {
+                "title": "User Criteria",
+                "name": "user_criteria",
+                "search_by": ["name"],
+                "order_by": "^ORDERBYDESCactive"
+            },
+            {
+                "title": "Roles",
+                "name": "sys_user_role",
+                "search_by": ["name"]
+            },
+            {
+                "title": "Groups",
+                "name": "sys_user_group",
+                "search_by": ["name"],
+                "order_by": "^ORDERBYDESCactive"
+            },
+            {
+                "title": "Users",
+                "name": "sys_user",
+                "search_by": ["name", "user_name", "email"],
+                "order_by": "^ORDERBYDESCactive"
+            }
         ];
 
+        function getExtendedSearchTooltip() {
+            const tooltip = extendedSearchOptions
+                .map(option => `- ${option.title} (Search by ${option.search_by.join(', ')})`)
+                .join('\n');
+            return tooltip;
+        }
+
+        function getExtendedSearchLink(mode, table, query) {
+            const option = extendedSearchOptions.find(option => option.name === table);
+            if (option) {
+                if (mode === 'RECORD') {
+                    return `${table}.do?sysparm_query=${option.search_by.map(name => `${name}=${encodeURIComponent(query)}`).join('^OR')}${option.order_by ? option.order_by : ''}`;
+                }
+                if (mode === 'LIST') {
+                    const queryParam = query === ''
+                        ? '&sysparm_filter_only=true'
+                        : `&sysparm_query=${option.search_by.map(name => `${name}LIKE${encodeURIComponent(query)}`).join('^OR')}${option.order_by ? option.order_by : ''}`;
+                    return `${table}_list.do?sysparm_filter_pinned=true${queryParam}`;
+                }
+            }
+            return null;
+        }
+
         const shortcutLinks = [
-            { label: 'Create new update set ➚', path: '/sys_update_set.do' },
-            { label: 'Background Script (sys.scripts.modern.do) ➚', path: '/sys.scripts.modern.do' },
-            { label: 'Cancel Transactions (cancel_my_transactions.do) ➚', path: '/cancel_my_transactions.do' },
+            { label: 'Create new update set', path: '/sys_update_set.do' },
+            { label: 'Background Script (sys.scripts.modern.do)', path: '/sys.scripts.modern.do' },
+            { label: 'Cancel Transactions (cancel_my_transactions.do)', path: '/cancel_my_transactions.do' },
 
             { label: 'SYSTEM TRANSACTIONS', isHeader: true },
-            { label: 'Active Transactions ➚', path: '/v_transaction_list.do?sysparm_query=ORDERBYASCsys_created_on' },
-            { label: 'Active Cluster Transactions ➚', path: '/loading_transactions.do' },
-            { label: 'Recent Slow Transactions ➚', path: '/sys_transaction_pattern_list.do?sysparm_query=window_endISEMPTY^window_startISEMPTY^firstONLast 2 hours@javascript:gs.beginningOfLast2Hours()@javascript:gs.endOfLast2Hours()^ORDERBYDESCaverage' },
-            { label: 'Recent Transaction Logs ➚', path: '/syslog_transaction_list.do?sysparm_query=urlSTARTSWITH/^sql_count>0^response_time>=5000^sys_created_by!=guest^sys_created_onONLast 2 hours@javascript:gs.beginningOfLast2Hours()@javascript:gs.endOfLast2Hours()^ORDERBYDESCresponse_time' },
-            { label: 'Recent Background Transactions ➚', path: '/syslog_transaction_list.do?sysparm_query=urlSTARTSWITHJOB^response_time>=5000^sys_created_onONLast 2 hours@javascript:gs.beginningOfLast2Hours()@javascript:gs.endOfLast2Hours()^ORDERBYDESCresponse_time' },
-            { label: 'Recent Client Transactions ➚', path: '/syslog_transaction_list.do?sysparm_query=client_transaction=true^response_time>=5000^sys_created_onONLast 2 hours@javascript:gs.beginningOfLast2Hours()@javascript:gs.endOfLast2Hours()^ORDERBYDESCresponse_time' },
-            { label: 'Slow Queries ➚', path: '/sys_query_pattern_list.do?sysparm_query=window_endISEMPTY^window_startISEMPTY^average>=5000^sys_created_onONLast 7 days@javascript:gs.beginningOfLast7Days()@javascript:gs.endOfLast7Days()^ORDERBYDESCaverage' },
-            { label: 'Slow Scripts ➚', path: '/sys_script_pattern_list.do?sysparm_query=window_endISEMPTY^window_startISEMPTY^average>=5000^sys_created_onONLast 7 days@javascript:gs.beginningOfLast7Days()@javascript:gs.endOfLast7Days()^ORDERBYDESCaverage' },
-            { label: 'Recent Logs ➚', path: '/syslog_list.do?sysparm_query=sys_created_onONLast 2 hours@javascript:gs.beginningOfLast2Hours()@javascript:gs.endOfLast2Hours()^ORDERBYDESCsys_created_on' },
+            { label: 'Active Transactions', path: '/v_transaction_list.do?sysparm_query=ORDERBYASCsys_created_on' },
+            { label: 'Active Cluster Transactions', path: '/loading_transactions.do' },
+            { label: 'Recent Slow Transactions', path: '/sys_transaction_pattern_list.do?sysparm_query=window_endISEMPTY^window_startISEMPTY^firstONLast 2 hours@javascript:gs.beginningOfLast2Hours()@javascript:gs.endOfLast2Hours()^ORDERBYDESCaverage' },
+            { label: 'Recent Transaction Logs', path: '/syslog_transaction_list.do?sysparm_query=urlSTARTSWITH/^sql_count>0^response_time>=5000^sys_created_by!=guest^sys_created_onONLast 2 hours@javascript:gs.beginningOfLast2Hours()@javascript:gs.endOfLast2Hours()^ORDERBYDESCresponse_time' },
+            { label: 'Recent Background Transactions', path: '/syslog_transaction_list.do?sysparm_query=urlSTARTSWITHJOB^response_time>=5000^sys_created_onONLast 2 hours@javascript:gs.beginningOfLast2Hours()@javascript:gs.endOfLast2Hours()^ORDERBYDESCresponse_time' },
+            { label: 'Recent Client Transactions', path: '/syslog_transaction_list.do?sysparm_query=client_transaction=true^response_time>=5000^sys_created_onONLast 2 hours@javascript:gs.beginningOfLast2Hours()@javascript:gs.endOfLast2Hours()^ORDERBYDESCresponse_time' },
+            { label: 'Slow Queries', path: '/sys_query_pattern_list.do?sysparm_query=window_endISEMPTY^window_startISEMPTY^average>=5000^sys_created_onONLast 7 days@javascript:gs.beginningOfLast7Days()@javascript:gs.endOfLast7Days()^ORDERBYDESCaverage' },
+            { label: 'Slow Scripts', path: '/sys_script_pattern_list.do?sysparm_query=window_endISEMPTY^window_startISEMPTY^average>=5000^sys_created_onONLast 7 days@javascript:gs.beginningOfLast7Days()@javascript:gs.endOfLast7Days()^ORDERBYDESCaverage' },
+            { label: 'Recent Logs', path: '/syslog_list.do?sysparm_query=sys_created_onONLast 2 hours@javascript:gs.beginningOfLast2Hours()@javascript:gs.endOfLast2Hours()^ORDERBYDESCsys_created_on' },
 
             { label: 'AUDIT LIST', isHeader: true },
-            { label: 'Inactive Users with directly assigned roles ➚', path: '/sys_user_has_role_list.do?sysparm_query=user.active=false^inherited=false^ORDERBYuser.name^ORDERBYrole.name^GROUPBYuser' },
-            { label: 'Inactive Users with assigned groups ➚', path: '/sys_user_grmember_list.do?sysparm_query=user.active=false^ORDERBYuser.name^ORDERBYgroup.name^GROUPBYuser' },
-            { label: 'Dormant Users ➚', path: '/sys_user_list.do?sysparm_query=active=true^last_login_timeNOTONLast 90 days@javascript:gs.beginningOfLast90Days()@javascript:gs.endOfLast90Days()^ORDERBYlast_login_time' },
-            { label: 'Groups without members ➚', path: '/sys_user_group_list.do?sysparm_query=RLQUERYsys_user_grmember.group,=0^ENDRLQUERY^ORDERBYname' },
-            { label: 'Inactive Groups with assigned roles ➚', path: '/sys_group_has_role_list.do?sysparm_query=group.active=false^ORDERBYgroup.name^ORDERBYrole.name^GROUPBYgroup' },
-            { label: 'Inactive Groups with members ➚', path: '/sys_user_grmember_list.do?sysparm_query=group.active=false^ORDERBYgroup.name^ORDERBYuser.name^GROUPBYgroup' },
-            { label: 'Stuck Workflow contexts ➚', path: '/wf_context_list.do?sysparm_query=state=faulted^ORDERBYstarted^GROUPBYworkflow_version' },
-            { label: 'Aging Workflow contexts in progress ➚', path: '/wf_context_list.do?sysparm_query=state=executing^startedNOTONLast 90 days@javascript:gs.beginningOfLast90Days()@javascript:gs.endOfLast90Days()^ORDERBYstarted^GROUPBYworkflow_version' },
-            { label: 'Requested Cross scope privileges ➚', path: '/sys_scope_privilege_list.do?sysparm_query=status=requested^ORDERBYsys_created_on^GROUPBYoperation' }
+            { label: 'Inactive Users with directly assigned roles', path: '/sys_user_has_role_list.do?sysparm_query=user.active=false^inherited=false^ORDERBYuser.name^ORDERBYrole.name^GROUPBYuser' },
+            { label: 'Inactive Users with assigned groups', path: '/sys_user_grmember_list.do?sysparm_query=user.active=false^ORDERBYuser.name^ORDERBYgroup.name^GROUPBYuser' },
+            { label: 'Dormant Users', path: '/sys_user_list.do?sysparm_query=active=true^last_login_timeNOTONLast 90 days@javascript:gs.beginningOfLast90Days()@javascript:gs.endOfLast90Days()^ORDERBYlast_login_time' },
+            { label: 'Groups without members', path: '/sys_user_group_list.do?sysparm_query=RLQUERYsys_user_grmember.group,=0^ENDRLQUERY^ORDERBYname' },
+            { label: 'Inactive Groups with assigned roles', path: '/sys_group_has_role_list.do?sysparm_query=group.active=false^ORDERBYgroup.name^ORDERBYrole.name^GROUPBYgroup' },
+            { label: 'Inactive Groups with members', path: '/sys_user_grmember_list.do?sysparm_query=group.active=false^ORDERBYgroup.name^ORDERBYuser.name^GROUPBYgroup' },
+            { label: 'Stuck Workflow contexts', path: '/wf_context_list.do?sysparm_query=state=faulted^ORDERBYstarted^GROUPBYworkflow_version' },
+            { label: 'Aging Workflow contexts in progress', path: '/wf_context_list.do?sysparm_query=state=executing^startedNOTONLast 90 days@javascript:gs.beginningOfLast90Days()@javascript:gs.endOfLast90Days()^ORDERBYstarted^GROUPBYworkflow_version' },
+            { label: 'Requested Cross scope privileges', path: '/sys_scope_privilege_list.do?sysparm_query=status=requested^ORDERBYsys_created_on^GROUPBYoperation' }
         ];
 
         modal.innerHTML = `
             <div style="background-color: #032D42; color: white; padding: 20px 30px 19px 30px; font-weight: 600; font-size: 17px; line-height: 1.2;">
-                <a href="https://sites.google.com/view/sn-toolkit" target="_blank"
+                <a href="https://github.com/sn-toolkit/sn-toolkit-lite" target="_blank"
                     style="color: white; text-decoration: none; cursor: pointer;">
-                    SN Toolkit
+                    SN Toolkit Lite
                 </a>
             </div>
             <div style="padding: 25px; background: #F5F5F5;">
@@ -84,15 +226,15 @@
                 <div style="display: flex; gap: 10px; align-items: center;">
                     <span id="searchInputMsg" style="display: none; font-size: 10px; font-weight: bold; color: #dc3545; margin: 8px 0px 0px 15px;">Search query is empty</span>
                     <span id="extendedGlobalSearch" title="Extended Global Search\nPress Shift + Enter\n\n- Search ServiceNow Documentation\n- System Properties (Search by name)\n- Local Update Sets (Search by name)\n- Retrieved Update Sets (Search by name)\n- Tables (Search by name or label)\n- Business Rules (Search by name)\n- Scheduled Jobs (Search by name)\n- Script Includes (Search by name)\n- Assignment Rules (Search by name)\n- Client Scripts (Search by name)\n- UI Actions (Search by name or action_name)\n- Business Services (Search by name)\n- Service Offerings (Search by name)\n- Record Producers (Search by name)\n- Catalog Items (Search by name)\n- Groups (Search by name)\n- Users (Search by name, user_name, or email)"
-                        style="font-size: 10px; font-weight: bold; color: #032D42; margin: 8px 15px 0px auto; cursor: pointer;">Global Search Options</span>
+                        style="font-size: 10px; font-weight: bold; color: #032D42; margin: 10px 15px 0px auto; cursor: pointer;">Global Search Options</span>
                 </div>
                 <div id="extendedGlobalSearchDiv" style="display: none; margin-top: 15px; max-height: 300px; overflow-y: auto; color: #032D42;">
                     <ul style="list-style: none; padding: 0; margin: 0; font-weight: bold; font-size: 12px; text-align: right;">
-                        <li id="servicenow_search_engine" style="padding: 5px 10px; cursor: pointer;" title="Search the official ServiceNow documentation and community forums">Search ServiceNow Documentation ➚</li>
-                        ${globalSearchOptions.map(item => `
+                        <li id="servicenow_search_engine" style="padding: 5px 10px; cursor: pointer;" title="Search the official ServiceNow documentation and community forums">Search ServiceNow Documentation</li>
+                        ${extendedSearchOptions.map(item => `
                             <li style="padding: 5px 10px;">
-                                <span id="search_${item.id}" title="${item.title}&#10;Opens the record directly" style="margin-right: 15px; cursor: pointer;">${item.label}</span>
-                                <span id="search_${item.id}_list" title="${item.title}&#10;Opens a filtered list" style="cursor: pointer;">Run filter ➚</span>
+                                <span id="search_${item.name}" title="Search by ${item.search_by.join(', ')}&#10;Opens the record directly" style="margin-right: 15px; cursor: pointer;">${item.title + ' ➚'}</span>
+                                <span id="search_${item.name}_list" title="Search by ${item.search_by.join(', ')}&#10;Opens a filtered list" style="cursor: pointer;">Run filter ➚</span>
                             </li>
                         `).join('')}
                     </ul>
@@ -102,7 +244,7 @@
                         <li style="padding: 5px 10px"><a id="sntkToggleNavigationBtn" href="#" title="Toggle navigation bar / banner frame" style="color: #032D42; text-decoration: none;">Toggle navigation bar</a></li>
                         ${shortcutLinks.map(link => link.isHeader
             ? `<li style="padding: 5px 10px; margin-top: 15px; color: #777777">${link.label}</li>`
-            : `<li style="padding: 5px 10px"><a href="${origin}${link.path}" style="color: #032D42; text-decoration: none;" target="_blank">${link.label}</a></li>`
+            : `<li style="padding: 5px 10px"><a href="${origin}${link.path}" style="color: #032D42; text-decoration: none;" target="_blank">${link.label + ' ➚'}</a></li>`
         ).join('')}
                     </ul>
                 </div>
@@ -126,7 +268,8 @@
         Object.assign(modal.style, {
             backgroundColor: 'white',
             boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)',
-            maxWidth: '450px',
+            borderRadius: '12.5px',
+            maxWidth: '480px',
             width: '90%',
             padding: '0',
             overflow: 'hidden'
@@ -318,109 +461,20 @@
             }
         };
 
-        function extendedGlobalSearch(table) {
-            const query = globalSearch.value.trim();
-            if (query == '') {
-                if (table.endsWith('_list')) {
-                    window.open(`${window.location.origin}/${table}.do?sysparm_filter_only=true&sysparm_filter_pinned=true`, '_blank');
-                } else {
+        extendedSearchOptions.forEach(item => {
+            document.getElementById(`search_${item.name}`).onclick = () => {
+                const query = globalSearch.value.trim();
+                if (query == '') {
                     setSearchInputMsg('Search query is empty');
-                }
-            } else {
-                if (table.endsWith('_list')) {
-                    window.open(`${window.location.origin}/${table}.do?sysparm_filter_pinned=true&sysparm_query=nameLIKE${encodeURIComponent(query)}`, '_blank');
                 } else {
-                    window.open(`${window.location.origin}/${table}.do?sysparm_query=name=${encodeURIComponent(query)}`, '_blank');
+                    window.open(`${window.location.origin}/${getExtendedSearchLink('RECORD', item.name, query)}`, '_blank');
                 }
             }
-        };
-
-        document.getElementById('search_sys_properties').onclick = () => extendedGlobalSearch('sys_properties');
-        document.getElementById('search_sys_update_set').onclick = () => extendedGlobalSearch('sys_update_set');
-        document.getElementById('search_sys_remote_update_set').onclick = () => extendedGlobalSearch('sys_remote_update_set');
-        document.getElementById('search_sys_script').onclick = () => extendedGlobalSearch('sys_script');
-        document.getElementById('search_sysauto').onclick = () => extendedGlobalSearch('sysauto');
-        document.getElementById('search_sys_script_include').onclick = () => extendedGlobalSearch('sys_script_include');
-        document.getElementById('search_sysrule_assignment').onclick = () => extendedGlobalSearch('sysrule_assignment');
-        document.getElementById('search_sys_script_client').onclick = () => extendedGlobalSearch('sys_script_client');
-        document.getElementById('search_cmdb_ci_service_business').onclick = () => extendedGlobalSearch('cmdb_ci_service_business');
-        document.getElementById('search_service_offering').onclick = () => extendedGlobalSearch('service_offering');
-        document.getElementById('search_sc_cat_item_producer').onclick = () => extendedGlobalSearch('sc_cat_item_producer');
-        document.getElementById('search_sc_cat_item').onclick = () => extendedGlobalSearch('sc_cat_item');
-        document.getElementById('search_sys_user_group').onclick = () => extendedGlobalSearch('sys_user_group');
-
-        document.getElementById('search_sys_properties_list').onclick = () => extendedGlobalSearch('sys_properties_list');
-        document.getElementById('search_sys_update_set_list').onclick = () => extendedGlobalSearch('sys_update_set_list');
-        document.getElementById('search_sys_script_list').onclick = () => extendedGlobalSearch('sys_script_list');
-        document.getElementById('search_sysauto_list').onclick = () => extendedGlobalSearch('sysauto_list');
-        document.getElementById('search_sys_script_include_list').onclick = () => extendedGlobalSearch('sys_script_include_list');
-        document.getElementById('search_sysrule_assignment_list').onclick = () => extendedGlobalSearch('sysrule_assignment_list');
-        document.getElementById('search_sys_script_client_list').onclick = () => extendedGlobalSearch('sys_script_client_list');
-        document.getElementById('search_cmdb_ci_service_business_list').onclick = () => extendedGlobalSearch('cmdb_ci_service_business_list');
-        document.getElementById('search_service_offering_list').onclick = () => extendedGlobalSearch('service_offering_list');
-        document.getElementById('search_sc_cat_item_producer_list').onclick = () => extendedGlobalSearch('sc_cat_item_producer_list');
-        document.getElementById('search_sc_cat_item_list').onclick = () => extendedGlobalSearch('sc_cat_item_list');
-        document.getElementById('search_sys_user_group_list').onclick = () => extendedGlobalSearch('sys_user_group_list');
-
-        document.getElementById('search_sys_remote_update_set_list').onclick = () => {
-            const query = globalSearch.value.trim();
-            if (query == '') {
-                window.open(`${window.location.origin}/sys_remote_update_set_list.do?sysparm_filter_only=true&sysparm_filter_pinned=true`, '_blank');
-            } else {
-                window.open(`${window.location.origin}/sys_remote_update_set_list.do?sysparm_fixed_query=sys_class_name=sys_remote_update_set&sysparm_filter_pinned=true&sysparm_query=nameLIKE${encodeURIComponent(query)}`, '_blank');
+            document.getElementById(`search_${item.name}_list`).onclick = () => {
+                const query = globalSearch.value.trim();
+                window.open(`${window.location.origin}/${getExtendedSearchLink('LIST', item.name, query)}`, '_blank');
             }
-        };
-
-        document.getElementById('search_sys_db_object').onclick = () => {
-            const query = globalSearch.value.trim();
-            if (query == '') {
-                setSearchInputMsg('Search query is empty');
-            } else {
-                window.open(`${window.location.origin}/sys_db_object.do?sysparm_query=name=${encodeURIComponent(query)}^ORlabel=${encodeURIComponent(query)}`, '_blank');
-            }
-        };
-        document.getElementById('search_sys_db_object_list').onclick = () => {
-            const query = globalSearch.value.trim();
-            if (query == '') {
-                window.open(`${window.location.origin}/sys_db_object_list.do?sysparm_filter_only=true&sysparm_filter_pinned=true`, '_blank');
-            } else {
-                window.open(`${window.location.origin}/sys_db_object_list.do?sysparm_filter_pinned=true&sysparm_query=nameLIKE${encodeURIComponent(query)}^ORlabelLIKE${encodeURIComponent(query)}`, '_blank');
-            }
-        };
-
-        document.getElementById('search_sys_ui_action').onclick = () => {
-            const query = globalSearch.value.trim();
-            if (query == '') {
-                setSearchInputMsg('Search query is empty');
-            } else {
-                window.open(`${window.location.origin}/sys_ui_action.do?sysparm_query=name=${encodeURIComponent(query)}^ORaction_name=${encodeURIComponent(query)}`, '_blank');
-            }
-        };
-        document.getElementById('search_sys_ui_action_list').onclick = () => {
-            const query = globalSearch.value.trim();
-            if (query == '') {
-                window.open(`${window.location.origin}/sys_ui_action_list.do?sysparm_filter_only=true&sysparm_filter_pinned=true`, '_blank');
-            } else {
-                window.open(`${window.location.origin}/sys_ui_action_list.do?sysparm_filter_pinned=true&sysparm_query=nameLIKE${encodeURIComponent(query)}^ORaction_nameLIKE${encodeURIComponent(query)}`, '_blank');
-            }
-        };
-
-        document.getElementById('search_sys_user').onclick = () => {
-            const query = globalSearch.value.trim();
-            if (query == '') {
-                setSearchInputMsg('Search query is empty');
-            } else {
-                window.open(`${window.location.origin}/sys_user.do?sysparm_query=name=${encodeURIComponent(query)}^ORuser_name=${encodeURIComponent(query)}^ORemail=${encodeURIComponent(query)}`, '_blank');
-            }
-        };
-        document.getElementById('search_sys_user_list').onclick = () => {
-            const query = globalSearch.value.trim();
-            if (query == '') {
-                window.open(`${window.location.origin}/sys_user_list.do?sysparm_filter_only=true&sysparm_filter_pinned=true`, '_blank');
-            } else {
-                window.open(`${window.location.origin}/sys_user_list.do?sysparm_filter_pinned=true&sysparm_query=nameLIKE${encodeURIComponent(query)}^ORuser_nameLIKE${encodeURIComponent(query)}^ORemailLIKE${encodeURIComponent(query)}`, '_blank');
-            }
-        };
+        });
 
         function loadCommonQueries(query = '') {
             const commonQueries = document.getElementById('common-queries');
