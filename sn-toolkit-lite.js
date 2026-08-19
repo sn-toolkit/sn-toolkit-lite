@@ -230,7 +230,7 @@
                 </div>
                 <div id="extendedGlobalSearchDiv" style="display: none; margin-top: 15px; max-height: 300px; overflow-y: auto; color: #032D42;">
                     <ul style="list-style: none; padding: 0; margin: 0; font-weight: bold; font-size: 12px; text-align: right;">
-                        <li id="servicenow_search_engine" style="padding: 5px 10px; cursor: pointer;" title="Search the official ServiceNow documentation and community forums">Search ServiceNow Documentation</li>
+                        <li id="servicenow_search_engine" style="padding: 5px 10px; cursor: pointer;" title="Search the official ServiceNow documentation and community forums">Search ServiceNow Documentation ➚</li>
                         ${extendedSearchOptions.map(item => `
                             <li style="padding: 5px 10px;">
                                 <span id="search_${item.name}" title="Search ${item.name} by ${item.search_by.join(', ')}&#10;Opens the record directly" style="margin-right: 15px; cursor: pointer;">${item.title + ' ➚'}</span>
