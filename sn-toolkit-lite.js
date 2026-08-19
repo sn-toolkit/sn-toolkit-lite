@@ -225,7 +225,7 @@
                 </div>
                 <div style="display: flex; gap: 10px; align-items: center;">
                     <span id="searchInputMsg" style="display: none; font-size: 10px; font-weight: bold; color: #dc3545; margin: 8px 0px 0px 15px;">Search query is empty</span>
-                    <span id="extendedGlobalSearch" title="Extended Global Search\nPress Shift + Enter\n\n- Search ServiceNow Documentation\n- System Properties (Search by name)\n- Local Update Sets (Search by name)\n- Retrieved Update Sets (Search by name)\n- Tables (Search by name or label)\n- Business Rules (Search by name)\n- Scheduled Jobs (Search by name)\n- Script Includes (Search by name)\n- Assignment Rules (Search by name)\n- Client Scripts (Search by name)\n- UI Actions (Search by name or action_name)\n- Business Services (Search by name)\n- Service Offerings (Search by name)\n- Record Producers (Search by name)\n- Catalog Items (Search by name)\n- Groups (Search by name)\n- Users (Search by name, user_name, or email)"
+                    <span id="extendedGlobalSearch" title="Extended Global Search\nPress Shift + Enter\n\n- Search ServiceNow Documentation\n"
                         style="font-size: 10px; font-weight: bold; color: #032D42; margin: 10px 15px 0px auto; cursor: pointer;">Global Search Options</span>
                 </div>
                 <div id="extendedGlobalSearchDiv" style="display: none; margin-top: 15px; max-height: 300px; overflow-y: auto; color: #032D42;">
@@ -298,6 +298,8 @@
         const TABLE_REGEX = /^(?:[a-z_][a-z0-9_]*)(?:\.do|_list\.do)$/;
         const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         const DICTIONARY_REGEX = /^[a-z0-9_]+\.[a-z0-9_]+$/i;
+
+        document.getElementById('extendedGlobalSearch').title += getExtendedSearchTooltip();
 
         document.getElementById('subdomain').onclick = () => {
             let result = prompt("Open same page in another instance:", subdomain);
