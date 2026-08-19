@@ -14,11 +14,3 @@ This JavaScript bookmarklet is the lite version of the SN Toolkit Chrome extensi
 
 2. Rename the bookmark as "SN Toolkit Lite".
 3. Click on the bookmark while on a service-now.com instance.
-
-## Contributing
-
-Contributions are welcome! If you know of high-quality ServiceNow blogs, utility sites, or documentation hubs that should be boosted, please feel free to contribute:
-
-1. [Start](https://github.com/sn-toolkit/sn-toolkit-lite/discussions/new/choose) a new discussion.
-2. Select a discussion category.
-3. Fill out the form and submit.
